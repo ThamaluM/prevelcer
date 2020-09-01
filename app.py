@@ -20,6 +20,7 @@ def post():
     result = ""
     for i in json:
         result += f"{i} is {json[i]}. \n"
+    result += "Good work Buddhini!!"
     return result
 
 if __name__ == '__main__':
