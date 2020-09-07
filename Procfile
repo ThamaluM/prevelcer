@@ -1,1 +1,1 @@
-web: gunicorn prevelcer/prevelcer.wsgi
+web: gunicorn prevelcer.wsgi
