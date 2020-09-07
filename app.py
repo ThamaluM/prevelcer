@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return ''' <html> <h1>Ulcer prevention smart mattress</h1> <p>This is final year project conducted by </p><ul><li>Adrian</li><li>Buddhini</li><li>Helik</li><li>Thamalu</li></ul> </html>  '''
+    return ''' <html> <h1>Ulcer prevention smart mattress</h1> <p>This is final year project conducted by </p><ul><li>Adrian Perera</li><li>Buddhini Edirisinghe</li><li>Helik Tribuwan</li><li>Thamalu Piyadigama</li></ul> </html>  '''
     #return jsonify({"message":"This is our first test", "additional":"this is really cool"})
 
 @app.route('/get',methods=['GET'])
