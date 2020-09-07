@@ -1,1 +1,1 @@
-web: gunicorn prevelcer.wsgi
+web: gunicorn --pythonpath prevelcer prevelcer.wsgi
