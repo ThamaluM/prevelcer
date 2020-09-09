@@ -17,13 +17,15 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import path,include
 from . import views
-from .views import UserRecordView
+from .views import UserRecordView,ProfileRecordView
 
 app_name = 'api'
 urlpatterns = [
     path('', views.index, name = 'index'),
     path('get/',views.test_get,name = 'test_get'),
     path('user/', UserRecordView.as_view(), name='users'),
+    path('register/',views.create_account,name="create_account"),
+    path('profile/', ProfileRecordView.as_view(), name='users'),
 ]
 
 

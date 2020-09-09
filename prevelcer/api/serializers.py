@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
+from users.models import Profile
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -18,9 +19,30 @@ class UserSerializer(serializers.ModelSerializer):
             'email',
             'password',
         )
+        extra_kwargs = {'password': {'write_only': True}}
         validators = [
             UniqueTogetherValidator(
                 queryset=User.objects.all(),
                 fields=['username', 'email']
             )
         ]
+
+class ProfileSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Profile
+        fields = (
+            'phone_number',
+            'role',
+            'fcm_token'
+        )
+        extra_kwargs = {'fcm_token': {'write_only': True}}
+
+    def update(self, user, validated_data):
+        profile = user.profile
+        for (key, value) in validated_data.items():
+            setattr(profile, key, value)
+        profile.save()
+        
+        return profile
+
