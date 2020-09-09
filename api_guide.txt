@@ -6,3 +6,5 @@ curl -X POST -d "username=<username>&password=<password>"  http://localhost:8000
 ######## To call api by the token ###############
 
 curl -X GET http://localhost:8000/api/user/ -H "Authorization:Token 4d9c1fd4fa73e4cdff424c6b33d70ea894b7e2d5"
+
+curl -X POST http://localhost:8000/api/user/ -H "Authorization:Token 4d9c1fd4fa73e4cdff424c6b33d70ea894b7e2d5"
