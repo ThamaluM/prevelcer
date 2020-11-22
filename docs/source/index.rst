@@ -11,6 +11,7 @@ Welcome to prevelcer's documentation!
    :caption: Contents:
 
    minutes
+   api_guide/http_api
 
 
 

@@ -1,0 +1,44 @@
+
+REST API Guideline
+============================
+
+To get the token 
+---------------------
+
+    curl -X POST -d "username=<username>&password=<password>"  http://localhost:8000/api-token-auth/
+
+
+
+ 
+To call api by the token 
+---------------------------------------
+
+    curl -X GET http://localhost:8000/api/user/ -H "Authorization:Token 4d9c1fd4fa73e4cdff424c6b33d70ea894b7e2d5"
+
+    curl -X POST http://localhost:8000/api/user/ -H "Authorization:Token 4d9c1fd4fa73e4cdff424c6b33d70ea894b7e2d5"
+
+
+
+Create Account
+-------------------------
+
+    curl -X POST -d "username=<username>&password=<password>&email=<email>" localhost:8000/api/register/
+
+
+To get the token
+-------------------------
+
+    curl -X POST -d "username=decaprio&password=titanicbestactor" localhost:8000/api-token-auth/
+
+To get user details (username, first_name, last_name, email)
+-----------------------------------------------------------------
+
+    curl -X GET http://localhost:8000/api/user/ -H "Authorization:Token <Token>"
+
+To update profile
+---------------------------
+
+curl -X POST http://localhost:8000/api/profile/ -H "Authorization:Token <Token>" -d "phone_number=<phone_number>&fcm_token=<fcm>&role=<role>"
+
+
+(role: 1,2,3)
