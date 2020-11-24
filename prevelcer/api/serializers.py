@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from users.models import Profile
+from friend_requests.models import FriendRequest
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -46,3 +47,25 @@ class ProfileSerializer(serializers.ModelSerializer):
         
         return profile
 
+
+
+
+class FriendRequestSerializer(serializers.ModelSerializer):
+
+    
+    
+    def create(self, validated_data):
+
+        friend_request = FriendRequest.objects.create(**validated_data)
+        return friend_request
+
+
+    class Meta:
+        model = FriendRequest
+        fields = "__all__"
+        validators = [
+            UniqueTogetherValidator(
+                queryset=FriendRequest.objects.all(),
+                fields=['sender', 'receiver']
+            )
+        ]

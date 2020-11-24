@@ -3,14 +3,19 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 
 
-from .serializers import UserSerializer, ProfileSerializer
+from .serializers import UserSerializer, ProfileSerializer,FriendRequestSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAdminUser
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,Group
 from rest_framework.decorators import api_view
 from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework import viewsets
+from rest_framework import permissions
+from rest_framework.authentication import TokenAuthentication
+
+from friend_requests.models import FriendRequest
 
 
 # Create your views here.
@@ -83,6 +88,9 @@ class ProfileRecordView(APIView):
         serializer = ProfileSerializer(data=request.data)
         if serializer.is_valid(raise_exception=ValueError):
             serializer.update(user=request.user,validated_data=request.data)
+            roles = ['Admin','Patient','Carer','Doctor']
+            group = Group.objects.get(name=roles[request.user.profile.role])
+            request.user.groups.set([group])
             return Response(
                 serializer.data,
                 status=status.HTTP_201_CREATED
@@ -95,6 +103,86 @@ class ProfileRecordView(APIView):
             status=status.HTTP_400_BAD_REQUEST
         )
 
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+    #permission_classes = [permissions.IsAuthenticated]
+
+
+
+class FriendRequestView(APIView):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = FriendRequest.objects.all()
+    serializer_class = FriendRequestSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self,request):
+        request_set = FriendRequest.objects.filter(receiver=request.user)
+        serializer = FriendRequestSerializer(request_set,many=True)
+        return Response(serializer.data)
+
+    def post(self,request):
+        Sent = 0 
+        receiver  = User.objects.get(username=request.data["receiver"])
+        request.data["receiver"] = receiver.pk
+        request.data["status"] = Sent
+        request.data["sender"] = request.user.pk
+        serializer = FriendRequestSerializer(data=request.data)
         
+        if serializer.is_valid(raise_exception=ValueError):
+            #serializer.update(sender=request.user,status=Sent,receiver=receiver,validated_data=request.data)
+            FriendRequest.objects.create(sender=request.user,receiver = receiver,status = Sent)
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED
+            )
+        return Response(
+            {
+                "error": True,
+                "error_msg": serializer.error_messages,
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    def delete(self, request):
+
+        sender = request.user
+        receiver  = User.objects.get(username=request.data["receiver"])
+        friend_request = None
+        try:
+            friend_request = FriendRequest.objects.get(sender=sender,receiver=receiver) 
+        except:
+            pass
+        if friend_request:
+            friend_request.delete() 
+            return Response('Request Deleted')    
+        else:
+            sender, receiver = receiver, sender
+            friend_request = FriendRequest.objects.get(sender=sender,receiver=receiver)
+            return Response('Request Deleted')     
+
 
     
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([permissions.IsAuthenticated])
+def show_requests_sent(request):
+    
+    request_set = FriendRequest.objects.filter(sender=request.user)
+    serializer = FriendRequestSerializer(request_set,many=True)
+    print(request.user)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([permissions.IsAuthenticated])
+def accept_friend_request(request):
+    pass

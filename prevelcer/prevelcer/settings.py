@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api.apps.ApiConfig',
     'users.apps.UsersConfig',
+    'friend_requests.apps.FriendRequestsConfig',
     'rest_framework',
     'rest_framework.authtoken'
 ]
