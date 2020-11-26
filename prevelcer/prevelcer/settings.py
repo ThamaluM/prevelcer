@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import django_heroku
+
 from pathlib import Path
 import os
 
@@ -82,8 +84,12 @@ WSGI_APPLICATION = 'prevelcer.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'prevelcer',
+        'USER': 'prevelcer',
+        'PASSWORD': '123prevelcer',
+        'HOST':'localhost',
+        'PORT': ''
     }
 }
 
@@ -143,3 +149,6 @@ STATIC_ROOT = os.path.join(BASE_DIR,'static')
 
 LOGIN_REDIRECT_URL = "/user/dashboard"
 LOGOUT_REDIRECT_URL = "/user/dashboard"
+
+
+django_heroku.settings(locals())

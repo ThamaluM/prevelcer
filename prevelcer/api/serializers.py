@@ -38,6 +38,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             'fcm_token'
         )
         extra_kwargs = {'fcm_token': {'write_only': True}}
+        
 
     def update(self, user, validated_data):
         profile = user.profile

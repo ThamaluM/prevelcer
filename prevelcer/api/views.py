@@ -177,12 +177,43 @@ def show_requests_sent(request):
     
     request_set = FriendRequest.objects.filter(sender=request.user)
     serializer = FriendRequestSerializer(request_set,many=True)
-    print(request.user)
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([permissions.IsAuthenticated])
+def accept_friend_request(request):
+    friend_request = FriendRequest.objects.get(receiver=request.user,id=request.data["id"])
+    request.user.profile.friends.add(friend_request.sender)
+    friend_request.sender.profile.friends.add(request.user)
+    accepted = 1
+    friend_request.status = accepted
+    friend_request.save()
+    return Response(friend_request.sender.username + " is added to the friend list.")
 
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([permissions.IsAuthenticated])
-def accept_friend_request(request):
-    pass
+def show_friends(request):
+
+    serializer = UserSerializer(request.user.profile.friends,many=True)
+    return Response(serializer.data)
+
+@api_view(['DELETE'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([permissions.IsAuthenticated])
+def unfriend(request):
+    friend = User.objects.get(username=request.data["username"])
+    request.user.profile.friends.remove(friend)
+    friend_request = None
+    try:
+        friend_request = FriendRequest.objects.get(receiver=request.user,sender=friend)
+    except:
+        pass
+    if not friend_request:
+        friend_request = FriendRequest.objects.get(receiver=friend,sender=request.user)
+    friend_request.delete()
+    return Response(request.data["username"]+" unfriended.")
+

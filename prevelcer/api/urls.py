@@ -32,6 +32,9 @@ urlpatterns = [
     path('profile/', ProfileRecordView.as_view(), name='users'),
     path('friend_request/',FriendRequestView.as_view(), name = 'friend_requests'),
     path('outgoing_requests/',views.show_requests_sent,name = 'outgoing_requests'),
+    path('accept_request/',views.accept_friend_request,name = 'accept_request'),
+    path('show_friends/',views.show_friends,name='show_friend_list'),
+    path('unfriend/',views.unfriend,name='unfriend'),
     path('', include(router.urls)),
 ]
 
