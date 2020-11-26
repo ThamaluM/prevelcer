@@ -124,7 +124,7 @@ class FriendRequestView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self,request):
-        request_set = FriendRequest.objects.filter(receiver=request.user)
+        request_set = FriendRequest.objects.filter(receiver=request.user,status=0)
         serializer = FriendRequestSerializer(request_set,many=True)
         return Response(serializer.data)
 
@@ -175,7 +175,7 @@ class FriendRequestView(APIView):
 @permission_classes([permissions.IsAuthenticated])
 def show_requests_sent(request):
     
-    request_set = FriendRequest.objects.filter(sender=request.user)
+    request_set = FriendRequest.objects.filter(sender=request.user,status=0)
     serializer = FriendRequestSerializer(request_set,many=True)
     return Response(serializer.data)
 
