@@ -151,4 +151,6 @@ LOGIN_REDIRECT_URL = "/user/dashboard"
 LOGOUT_REDIRECT_URL = "/user/dashboard"
 
 
+
+
 django_heroku.settings(locals())
