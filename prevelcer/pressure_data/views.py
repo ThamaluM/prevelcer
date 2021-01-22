@@ -32,14 +32,14 @@ def start_cycle(request):
 def end_cycle(request):
 
     serial = request.GET["serial"]
-    n = int(request.GET["n"])
+    #n = int(request.GET["n"])
     mattress = Mattress.objects.get(serial=serial)
-    report_cycle = ReportCycle.objects.get(mat=mattress,id=n)
+    report_cycle = ReportCycle.objects.filter(mat=mattress,end_dt=None)[0]
     time = datetime.now()
     report_cycle.end_dt = time 
     report_cycle.save()
 
-    return JsonResponse({"session":n, "status":"ended"})
+    return JsonResponse({"session":report_cycle.id, "status":"ended"})
 
 def enter_data(request):
 

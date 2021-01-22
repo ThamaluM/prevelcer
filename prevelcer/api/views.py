@@ -16,7 +16,7 @@ from rest_framework import permissions
 from rest_framework.authentication import TokenAuthentication
 
 from friend_requests.models import FriendRequest
-
+from pressure_data.models import Mattress
 
 # Create your views here.
 def index(request):
@@ -217,3 +217,10 @@ def unfriend(request):
     friend_request.delete()
     return Response(request.data["username"]+" unfriended.")
 
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([permissions.IsAuthenticated])
+def register_mat(request):
+
+    mat = Mattress.objects.create(patient=request.user,serial=request.GET["serial"])
+    return JsonResponse({"serial":mat.serial})

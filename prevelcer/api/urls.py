@@ -35,6 +35,7 @@ urlpatterns = [
     path('accept_request/',views.accept_friend_request,name = 'accept_request'),
     path('show_friends/',views.show_friends,name='show_friend_list'),
     path('unfriend/',views.unfriend,name='unfriend'),
+    path('registermat',views.register_mat, name = 'register_mat'),
     path('', include(router.urls)),
 ]
 
