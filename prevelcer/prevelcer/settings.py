@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'api.apps.ApiConfig',
     'users.apps.UsersConfig',
     'friend_requests.apps.FriendRequestsConfig',
+    'pressure_data.apps.PressureDataConfig',
     'rest_framework',
     'rest_framework.authtoken'
 ]

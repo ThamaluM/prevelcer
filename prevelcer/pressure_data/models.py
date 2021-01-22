@@ -5,12 +5,20 @@ from users.models import User
 class Mattress(models.Model):
     
     patient = models.ForeignKey(User,on_delete=models.CASCADE)
-    serial = models.TextField(unique=True)
+    serial =  models.TextField(unique=True)
+
+class ReportCycle(models.Model):
+    
+    mat = models.ForeignKey(Mattress,  on_delete=models.CASCADE)
+    n = models.IntegerField()
+    start_dt = models.DateTimeField( auto_now=False, auto_now_add=False)
+    end_dt = models.DateTimeField( auto_now=False, auto_now_add=False, blank=True, null = True)
+
 
 class PressureEntry(models.Model):
 
     mat = models.ForeignKey(Mattress, on_delete=models.CASCADE)
-    n = models.IntegerField()
+    n = models.ForeignKey(ReportCycle, on_delete=models.CASCADE)
     x = models.IntegerField()
     y = models.IntegerField()
     l_x = models.IntegerField()
@@ -29,11 +37,5 @@ class PressureEntry(models.Model):
         )
 
 
-class ReportCycle(models.Model):
-
-    mat = models.ForeignKey(Mattress,  on_delete=models.CASCADE)
-    n = models.IntegerField()
-    start_dt = models.DateTimeField( auto_now=False, auto_now_add=False)
-    end_dt = models.DateTimeField( auto_now=False, auto_now_add=False, blank=True, null = True)
 
 

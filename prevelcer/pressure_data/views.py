@@ -21,19 +21,20 @@ def register(request):
 
 
 def start_cycle(request):
-    serial = int(request.GET["serial"])
-    n = int(request.GET["n"])
+    n=0  # Could not figure it out an additional need. To be removed
+    serial = request.GET["serial"]
+    #n = int(request.GET["n"])
     time = datetime.now()
     mattress = Mattress.objects.get(serial=serial)
-    ReportCycle.objects.create(mat=mattress,n=n,start_dt=time)
-    return JsonResponse({"session":n, "status":"started"})
+    rc = ReportCycle.objects.create(mat=mattress,n=n,start_dt=time)
+    return JsonResponse({"session":rc.id, "status":"started"})
 
 def end_cycle(request):
 
-    serial = int(request.GET["serial"])
+    serial = request.GET["serial"]
     n = int(request.GET["n"])
     mattress = Mattress.objects.get(serial=serial)
-    report_cycle = ReportCycle.objects.get(mat=mattress,n=n)
+    report_cycle = ReportCycle.objects.get(mat=mattress,id=n)
     time = datetime.now()
     report_cycle.end_dt = time 
     report_cycle.save()
@@ -42,7 +43,7 @@ def end_cycle(request):
 
 def enter_data(request):
 
-    serial = int(request.GET["serial"])
+    serial = request.GET["serial"]
     n = int(request.GET["n"])
     x = int(request.GET["x"])
     y = int(request.GET["y"])
@@ -51,7 +52,7 @@ def enter_data(request):
     p = float(request.GET["p"])
 
     mat = Mattress.objects.get(serial=serial)
-    #n = ReportCycle.objects.get(mat=mat,n=n)
+    n = ReportCycle.objects.get(mat=mat,id=n, end_dt=None)
 
     PressureEntry.objects.create(mat=mat,n=n,x=x,y=y,l_x=l_x,l_y=l_y,p=p)
 
@@ -59,11 +60,13 @@ def enter_data(request):
 
 def read_mat(request):
 
-    id = int(request.GET["id"])
+    serial = request.GET["serial"]
     n  = int(request.GET["n"])
     
-    mat = Mattress.objects.get(id=id)
+    mat = Mattress.objects.get(serial=serial)
+    n = ReportCycle.objects.get(mat=mat,id=n)
 
     entries = PressureEntry.objects.filter(mat=mat, n = n)
-    result = {"data":[{"x":entry.x, "y":entry.y, "lx":entry.l_x, "ly":entry.l_y,"p":entry.p} for entry in entries]}
+    result = {"data":[{"x":entry.x, "y":entry.y, "lx":entry.l_x, "ly":entry.l_y,"p":entry.p} for entry in entries] ,
+    "status":'completed' if n.end_dt else "incompleted"}
     return JsonResponse(result)

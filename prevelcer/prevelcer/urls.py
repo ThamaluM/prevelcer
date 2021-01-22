@@ -26,4 +26,5 @@ urlpatterns = [
     path('account/',include("django.contrib.auth.urls")),
     path('',views.home),
     path('api-token-auth/', rest_views.obtain_auth_token, name='api-token-auth'),
+    path('pressure/',include('pressure_data.urls'))
 ]
