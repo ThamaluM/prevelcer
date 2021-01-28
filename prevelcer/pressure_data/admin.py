@@ -7,4 +7,4 @@ class PressureEntryAdmin(admin.ModelAdmin):
     
 
 
-admin.site.register(PressureEntry, PressureEntryAdmin)
+# admin.site.register(PressureEntry, PressureEntryAdmin)
