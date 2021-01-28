@@ -222,5 +222,5 @@ def unfriend(request):
 @permission_classes([permissions.IsAuthenticated])
 def register_mat(request):
 
-    mat = Mattress.objects.create(patient=request.user,serial=request.GET["serial"])
+    mat = Mattress.objects.create(patient=request.user,serial=request.GET["serial"].strip())
     return JsonResponse({"serial":mat.serial})
