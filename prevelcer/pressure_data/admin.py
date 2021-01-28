@@ -8,3 +8,8 @@ class PressureEntryAdmin(admin.ModelAdmin):
 
 
 # admin.site.register(PressureEntry, PressureEntryAdmin)
+
+class MatressAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Mattress,MatressAdmin)
