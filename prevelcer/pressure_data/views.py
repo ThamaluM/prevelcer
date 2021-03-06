@@ -70,3 +70,28 @@ def read_mat(request):
     result = {"data":[{"x":entry.x, "y":entry.y, "lx":entry.l_x, "ly":entry.l_y,"p":entry.p} for entry in entries] ,
     "status":'completed' if n.end_dt else "incompleted"}
     return JsonResponse(result)
+
+
+def read_current(request):
+
+    serial = request.GET["serial"].strip()
+
+    image = [
+        [0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 0., 0., 0., 0., 0., 0., 0.]
+       ]
+
+    mattress = Mattress.objects.get(serial=serial)
+    report_cycle = ReportCycle.objects.filter(mat=mattress,end_dt=None)[0]
+    entries = PressureEntry.objects.filter(mat=mattress, n = report_cycle)
+
+    for entry in entries:
+      image[int(entry['y'])-1][int(entry['x'])-1] = int(entry['p'])
+
+    return render(request, "pressure_data/realtime.html", {"image":image})
