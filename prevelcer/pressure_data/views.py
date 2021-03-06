@@ -92,6 +92,6 @@ def read_current(request):
     entries = PressureEntry.objects.filter(mat=mattress, n = report_cycle)
 
     for entry in entries:
-      image[int(entry['y'])-1][int(entry['x'])-1] = int(entry['p'])
+      image[int(entry.y)-1][int(entry.x)-1] = int(entry['p'])
 
     return render(request, "pressure_data/realtime.html", {"image":image})
