@@ -88,7 +88,10 @@ def read_current(request):
        ]
 
     mattress = Mattress.objects.get(serial=serial)
-    report_cycle = ReportCycle.objects.filter(mat=mattress,end_dt=None)[0]
+    try:
+        report_cycle = ReportCycle.objects.filter(mat=mattress,end_dt=None)[0]
+    except:
+        return HttpResponse('''<head><meta http-equiv="refresh" content="2"></head>''')
     entries = PressureEntry.objects.filter(mat=mattress, n = report_cycle)
 
     for entry in entries:
