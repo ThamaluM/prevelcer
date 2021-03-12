@@ -98,3 +98,29 @@ def read_current(request):
       image[int(entry.y)-1][int(entry.x)-1] = int(entry.p)
 
     return render(request, "pressure_data/realtime.html", {"image":image})
+
+def read_mat_viz(request):
+
+    serial = request.GET["serial"].strip()
+    n  = int(request.GET["n"])
+
+    image = [
+        [0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 0., 0., 0., 0., 0., 0., 0.],
+       [0., 0., 0., 0., 0., 0., 0., 0.]
+       ]
+
+    mattress = Mattress.objects.get(serial=serial)
+    report_cycle = ReportCycle.objects.get(mat=mat,id=n)
+    
+    entries = PressureEntry.objects.filter(mat=mattress, n = report_cycle)
+
+    for entry in entries:
+      image[int(entry.y)-1][int(entry.x)-1] = int(entry.p)
+
+    return render(request, "pressure_data/realtime.html", {"image":image})
