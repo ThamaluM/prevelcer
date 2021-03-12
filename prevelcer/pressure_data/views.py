@@ -116,7 +116,7 @@ def read_mat_viz(request):
        ]
 
     mattress = Mattress.objects.get(serial=serial)
-    report_cycle = ReportCycle.objects.get(mat=mat,id=n)
+    report_cycle = ReportCycle.objects.get(mat=mattress,id=n)
     
     entries = PressureEntry.objects.filter(mat=mattress, n = report_cycle)
 
