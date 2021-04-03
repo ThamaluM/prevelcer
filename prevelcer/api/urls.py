@@ -39,7 +39,7 @@ urlpatterns = [
     path('show_friends/',views.show_friends,name='show_friend_list'),
     path('unfriend/',views.unfriend,name='unfriend'),
     path('registermat',views.register_mat, name = 'register_mat'),
-    path('device', FCMDeviceAuthorizedViewSet.as_view({'get': 'create'}), name='create_fcm_device'),
+    path('device', FCMDeviceAuthorizedViewSet.as_view({'post': 'create'}), name='create_fcm_device'),
     path('', include(router.urls)),
 ]
 
