@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'friend_requests.apps.FriendRequestsConfig',
     'pressure_data.apps.PressureDataConfig',
     'rest_framework',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'fcm_django'
 ]
 
 MIDDLEWARE = [
@@ -125,6 +126,10 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+}
+
+FCM_DJANGO_SETTINGS = {
+        "FCM_SERVER_KEY":"AAAApvdWGxE:APA91bGUyZeQXqvE4nr7PQ10HPCViwuKjt8Rp3bXJiFmVIIraZRF-AuRDNmjz3SktJOEfDb3IQHDr6jbsYG2ouodyEqO1keh4GHE6xXsc2PGZEKp_2KTB2jGKCreylAz2oNpxSmQMhQd"
 }
 
 # Internationalization

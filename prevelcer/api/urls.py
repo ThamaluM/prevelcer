@@ -18,10 +18,13 @@ from django.urls import path
 from django.urls import path,include
 from . import views
 from .views import UserRecordView,ProfileRecordView,UserViewSet,FriendRequestView
+from fcm_django.api.rest_framework import FCMDeviceAuthorizedViewSet
 from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'all_users', views.UserViewSet)
+
+
 
 app_name = 'api'
 urlpatterns = [
@@ -36,6 +39,7 @@ urlpatterns = [
     path('show_friends/',views.show_friends,name='show_friend_list'),
     path('unfriend/',views.unfriend,name='unfriend'),
     path('registermat',views.register_mat, name = 'register_mat'),
+    path('device', FCMDeviceAuthorizedViewSet.as_view({'get': 'create'}), name='create_fcm_device'),
     path('', include(router.urls)),
 ]
 
