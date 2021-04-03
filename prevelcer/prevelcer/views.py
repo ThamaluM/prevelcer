@@ -9,7 +9,7 @@ def home(request):
 
 
 def send_notification(request):
-    device = FCMDevice.objects.all(request.GET["username"])
+    device = FCMDevice.objects.get(user=request.GET["username"])
     device.send_message(request.GET["title"], request.GET["message"])
     return HttpResponse("Success")
     
