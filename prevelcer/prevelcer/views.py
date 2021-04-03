@@ -11,7 +11,7 @@ def home(request):
 
 def send_notification(request):
     user = User.objects.get(username=request.GET["username"])
-    device = FCMDevice.objects.get(user=user)
+    device = FCMDevice.objects.filter(user=user).first()
     device.send_message(request.GET["title"], request.GET["message"])
     return HttpResponse("Success")
     
