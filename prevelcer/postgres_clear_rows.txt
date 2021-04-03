@@ -1,0 +1,3 @@
+heroku psql 
+TRUNCATE pressure_data_pressureentry RESTART IDENTITY CASCADE;
+ TRUNCATE pressure_data_reportcycle RESTART IDENTITY CASCADE;
