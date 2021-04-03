@@ -22,7 +22,6 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=12)
     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, blank=True, null=True)
-    fcm_token = models.CharField(max_length=500)
     friends = models.ManyToManyField(User,blank=True,related_name='friends')
 
 
@@ -34,6 +33,9 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
+
+
 
 
 class PersonalRisk(models.Model):

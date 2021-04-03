@@ -35,9 +35,8 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = (
             'phone_number',
             'role',
-            'fcm_token'
         )
-        extra_kwargs = {'fcm_token': {'write_only': True}}
+        extra_kwargs = {}
         
 
     def update(self, user, validated_data):

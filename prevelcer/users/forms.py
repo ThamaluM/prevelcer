@@ -10,4 +10,4 @@ class UserForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('role', 'phone_number', 'fcm_token')
+        fields = ('role', 'phone_number')
