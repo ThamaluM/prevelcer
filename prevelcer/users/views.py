@@ -76,7 +76,7 @@ class UserViewSet(viewsets.ModelViewSet):
     def list(self, request):
 
         role = request.GET["role"]
-        if role:
+        if role != 'all':
             queryset = User.objects.filter(groups__name=role)
         else:
             queryset = User.objects.all()
