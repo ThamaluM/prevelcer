@@ -10,6 +10,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import permissions
+from rest_framework.response import Response
 from .serializers import UserSerializer, GroupSerializer
 from django.contrib.auth.models import Group
 # import forms.UserForm as UserForm
@@ -71,6 +72,14 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def list(self, request, role):
+        if role:
+            queryset = User.objects.filter(groups__name=role)
+        else:
+            queryset = User.objects.all()
+        serializer = UserSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class GroupViewSet(viewsets.ModelViewSet):
