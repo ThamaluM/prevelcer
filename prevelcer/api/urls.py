@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import path,include
 from . import views
-from .views import UserRecordView,ProfileRecordView,UserViewSet,FriendRequestView
+from .views import UserRecordView,ProfileRecordView,UserViewSet,FriendRequestView, MemberListView
 from fcm_django.api.rest_framework import FCMDeviceAuthorizedViewSet
 from rest_framework import routers
 
@@ -41,6 +41,7 @@ urlpatterns = [
     path('registermat',views.register_mat, name = 'register_mat'),
     path('device', FCMDeviceAuthorizedViewSet.as_view({'post': 'create'}), name='create_fcm_device'),
     path('', include(router.urls)),
+    path('community/<str:role>', MemberListView.as_view(), name = 'group_wise_user_listing')
 ]
 
 

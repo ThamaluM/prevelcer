@@ -14,6 +14,9 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework import viewsets
 from rest_framework import permissions
 from rest_framework.authentication import TokenAuthentication
+from rest_framework import generics
+
+
 
 from friend_requests.models import FriendRequest
 from pressure_data.models import Mattress
@@ -112,6 +115,18 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
     #permission_classes = [permissions.IsAuthenticated]
+
+
+class MemberListView(generics.ListAPIView):
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the purchases for
+        the user as determined by the username portion of the URL.
+        """
+        role = self.kwargs['role']
+        return User.objects.filter(groups__name=role)
 
 
 
@@ -224,3 +239,6 @@ def register_mat(request):
 
     mat = Mattress.objects.create(patient=request.user,serial=request.GET["serial"].strip())
     return JsonResponse({"serial":mat.serial})
+
+
+

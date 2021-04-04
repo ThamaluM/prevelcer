@@ -73,15 +73,6 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def list(self, request):
-
-        role = request.GET["role"]
-        if role != 'all':
-            queryset = User.objects.filter(groups__name=role)
-        else:
-            queryset = User.objects.all()
-        serializer = UserSerializer(queryset, many=True)
-        return Response(serializer.data)
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -97,5 +88,10 @@ def test_auth(request):
         return HttpResponse("Hi. Successful.. This message is from Thamalu. You can see this if you have account.")
     else:
         return HttpResponse("Sorry. You have to create an account to see this.")
+
+
+
+
+
 
 
