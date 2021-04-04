@@ -62,13 +62,6 @@ def update_profile(request):
         'profile_form': profile_form
     })
 
-def member_listing(request, role):
-        
-        queryset = User.objects.filter(groups__name=role)
-        serializer = UserSerializer(queryset, many=True)
-        
-        return Response(serializer.data)
-
 
 
 
@@ -80,7 +73,15 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    
+    def list(self, request):
+
+        role = request.GET["role"]
+        if role:
+            queryset = User.objects.filter(groups__name=role)
+        else:
+            queryset = User.objects.all()
+        serializer = UserSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class GroupViewSet(viewsets.ModelViewSet):
