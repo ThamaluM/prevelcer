@@ -23,5 +23,6 @@ urlpatterns = [
     url("update_profile/",update_profile, name="update_profile"),
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('test/',views.test_auth)
+    path('test/',views.test_auth),
+    path('community/<str:role>',views.member_listing,name="list_users_of_group")
 ]
