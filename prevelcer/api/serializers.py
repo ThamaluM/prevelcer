@@ -52,7 +52,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class FriendRequestSerializer(serializers.ModelSerializer):
 
-    sender = serializers.CharField(source="sendor.username") 
+    sender = serializers.CharField(source="sender.username") 
     receiver = serializers.CharField(source="receiver.username")
     
     def create(self, validated_data):
