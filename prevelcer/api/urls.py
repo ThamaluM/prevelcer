@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import path,include
 from . import views
-from .views import UserRecordView,ProfileRecordView,UserViewSet,FriendRequestView, MemberListView
+from .views import UserRecordView,ProfileRecordView,UserViewSet,FriendRequestView, MemberListView, RiskScaleView
 from fcm_django.api.rest_framework import FCMDeviceAuthorizedViewSet
 from rest_framework import routers
 
@@ -38,6 +38,7 @@ urlpatterns = [
     path('accept_request/',views.accept_friend_request,name = 'accept_request'),
     path('show_friends/',views.show_friends,name='show_friend_list'),
     path('unfriend/',views.unfriend,name='unfriend'),
+    path('request/', RiskScaleView.as_view(), name = 'risk_assessment'),
     path('registermat',views.register_mat, name = 'register_mat'),
     path('device', FCMDeviceAuthorizedViewSet.as_view({'post': 'create'}), name='create_fcm_device'),
     path('', include(router.urls)),

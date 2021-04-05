@@ -245,7 +245,7 @@ def register_mat(request):
 
 
 
-class RiskScaleRequestView(APIView):
+class RiskScaleView(APIView):
 
     queryset = RiskScale.objects.all()
     serializer_class = RiskScaleSerializer
