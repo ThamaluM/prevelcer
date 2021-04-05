@@ -52,8 +52,8 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class FriendRequestSerializer(serializers.ModelSerializer):
 
-    sender_name = serializers.CharField(source="sender.username") 
-    receiver_name = serializers.CharField(source="receiver.username")
+    sender_name = serializers.CharField(source="sender.username",blank=True,null=True) 
+    receiver_name = serializers.CharField(source="receiver.username",blank=True,null=True)
     
     def create(self, validated_data):
 
