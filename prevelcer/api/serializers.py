@@ -3,6 +3,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from users.models import Profile
 from friend_requests.models import FriendRequest
+from risk_assessment.models import RiskScale
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -70,3 +71,10 @@ class FriendRequestSerializer(serializers.ModelSerializer):
                 fields=['sender', 'receiver']
             )
         ]
+
+
+
+class RiskScaleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RiskScale
+        fields = '__all__'

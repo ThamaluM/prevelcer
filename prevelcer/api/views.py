@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 
 
-from .serializers import UserSerializer, ProfileSerializer,FriendRequestSerializer
+from .serializers import UserSerializer, ProfileSerializer,FriendRequestSerializer, RiskScaleSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -20,6 +20,7 @@ from rest_framework import generics
 
 from friend_requests.models import FriendRequest
 from pressure_data.models import Mattress
+from risk_assessment.models import RiskScale
 
 # Create your views here.
 def index(request):
@@ -241,6 +242,59 @@ def register_mat(request):
 
     mat = Mattress.objects.create(patient=request.user,serial=request.GET["serial"].strip())
     return JsonResponse({"serial":mat.serial})
+
+
+
+class RiskScaleRequestView(APIView):
+
+    queryset = RiskScale.objects.all()
+    serializer_class = RiskScaleSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self,request):
+        
+        if request.user.username == request.data["patient"]:
+            patient = request.user
+        else:
+            patient = request.user.profile.friends.get(username=request.data["patient"])
+
+        serializer = RiskScaleSerializer(patient.risk_scale)
+
+        Response(serializer.data)
+
+    
+    def update_or_create(self,request):
+
+        if request.user.role == 2:
+            
+            request.data["assessed_by"] = request.user.pk
+
+            serializer = RiskScaleSerializer(data=request.data)
+
+            if serializer.is_valid(raise_exception=ValueError):
+                #serializer.update(sender=request.user,status=Sent,receiver=receiver,validated_data=request.data)
+                RiskScale.objects.create(**request.data)
+                return Response(
+                    serializer.data,
+                    status=status.HTTP_201_CREATED
+                )
+            return Response(
+                {
+                    "error": True,
+                    "error_msg": serializer.error_messages,
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        else:
+            return Response({"error":"A doctor is needed to fill this"})
+            
+
+
+    
+
+        
+
 
 
 

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'friend_requests.apps.FriendRequestsConfig',
     'pressure_data.apps.PressureDataConfig',
+    'risk_assessment.apps.RiskAssessmentConfig',
     'rest_framework',
     'rest_framework.authtoken',
     'fcm_django'
