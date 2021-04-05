@@ -149,6 +149,8 @@ class FriendRequestView(APIView):
         request.data["receiver"] = receiver.pk
         request.data["status"] = Sent
         request.data["sender"] = request.user.pk
+        request.data["sender_name"] = request.user.username
+        request.data["receiver_name"] = receiver.username
         serializer = FriendRequestSerializer(data=request.data)
         
         if serializer.is_valid(raise_exception=ValueError):
