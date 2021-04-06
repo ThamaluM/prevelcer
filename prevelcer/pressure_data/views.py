@@ -104,7 +104,7 @@ def read_current(request):
 @login_required
 def read_mat_viz(request):
 
-    patient = request.GET["patient"].strip()
+    patient = User.objects.get(username=request.GET["patient"].strip())
     n  = int(request.GET["n"])
 
 
