@@ -11,7 +11,7 @@ import json
 # Create your views here.
 
 def insert(request):
-    return HttpResponse("abracadbra nonsense.")
+    return HttpResponse("Welcome to pressure data.")
 
 @login_required
 def register(request):

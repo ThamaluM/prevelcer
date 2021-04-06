@@ -132,8 +132,8 @@ class UlcerRecord(models.Model):
 
     floor = ChoiceArrayField(models.CharField(max_length=50, blank=True ,choices = FLOOR_CHOICES),size=6)
 
-    discharge = models.CharField(max_length=50, choices = DISCHARGE_CHOICES)
-    discharge_amount = models.CharField(max_length=50, choices= DISCHARGE_AMOUNT_CHOICES)
+    discharge = models.CharField(max_length=50, choices = DISCHARGE_CHOICES,null=True,blank=True)
+    discharge_amount = models.CharField(max_length=50, choices= DISCHARGE_AMOUNT_CHOICES,null=True,blank=True)
     
 
     surrounding_skin = ChoiceArrayField(models.CharField(max_length=50, blank=True, choices=SKIN_CHOICES),size=5)
