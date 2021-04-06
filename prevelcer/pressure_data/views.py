@@ -22,7 +22,7 @@ def register(request):
 
 
 def start_cycle(request):
-    #n=0  # Could not figure it out an additional need. To be removed
+    n=0  # Could not figure it out an additional need. To be removed
     serial = request.GET["serial"].strip()
     #n = int(request.GET["n"])
     time = datetime.now()
