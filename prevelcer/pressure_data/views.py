@@ -5,6 +5,9 @@ from django.contrib.auth.models import User
 from .models import Mattress, ReportCycle, PressureEntry
 from .serializers import PressureEntrySerializer
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.authentication import TokenAuthentication
 from datetime import datetime
 import json
 
@@ -59,7 +62,8 @@ def enter_data(request):
 
     return JsonResponse({"status": "Success"})
 
-@login_required
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
 def read_mat(request):
 
     patient = User.objects.get(username=request.GET["patient"].strip())
