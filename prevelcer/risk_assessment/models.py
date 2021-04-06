@@ -9,6 +9,13 @@ class RiskScale(models.Model):
         (u'F', u'Female'),
     )
 
+    BRADEN_CHOICES = (
+        (1, 1),
+        (2, 2),
+        (3, 3),
+        (4, 4)
+    )
+
     patient = models.OneToOneField(User, on_delete=models.CASCADE)
     assessed_by = models.ForeignKey(User, on_delete=models.SET_NULL,null=True,blank=True,related_name="assessed_risk_scale")
 
@@ -21,12 +28,12 @@ class RiskScale(models.Model):
 
     # Braden
 
-    sensory_perception = models.IntegerField(null=True,blank=True)
-    moisture = models.IntegerField(null=True,blank=True)
-    activity = models.IntegerField(null=True,blank=True)
-    mobility = models.IntegerField(null=True,blank=True)
-    nutrition = models.IntegerField(null=True,blank=True)
-    friction_shear = models.IntegerField(null=True,blank=True)
+    sensory_perception = models.IntegerField(null=True,blank=True,choices=BRADEN_CHOICES)
+    moisture = models.IntegerField(null=True,blank=True,choices=BRADEN_CHOICES)
+    activity = models.IntegerField(null=True,blank=True,choices=BRADEN_CHOICES)
+    mobility = models.IntegerField(null=True,blank=True,choices=BRADEN_CHOICES)
+    nutrition = models.IntegerField(null=True,blank=True,choices=BRADEN_CHOICES)
+    friction_shear = models.IntegerField(null=True,blank=True,choices=BRADEN_CHOICES)
 
 
     # risk factors 
