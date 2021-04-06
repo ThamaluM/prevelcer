@@ -66,10 +66,10 @@ def enter_data(request):
 @authentication_classes([TokenAuthentication])
 def read_mat(request):
 
-    patient = User.objects.filter(username=request.GET["patient"].strip()).last()
+    patient = User.objects.get(username=request.GET["patient"].strip())
     n  = int(request.GET["n"])
     
-    mat = Mattress.objects.get(patient=patient)
+    mat = Mattress.objects.filter(patient=patient).last()
     n = ReportCycle.objects.get(mat=mat,id=n)
 
     entries = PressureEntry.objects.filter(mat=mat, n = n)
@@ -85,7 +85,7 @@ def read_current(request):
     
 
 
-    mattress = Mattress.objects.get(patient=patient)
+    mattress = Mattress.objects.filter(patient=patient).last()
     try:
         report_cycle = ReportCycle.objects.filter(mat=mattress,end_dt=None)[0]
     except:
@@ -104,11 +104,11 @@ def read_current(request):
 @login_required
 def read_mat_viz(request):
 
-    serial = request.GET["serial"].strip()
+    patient = request.GET["patient"].strip()
     n  = int(request.GET["n"])
 
 
-    mattress = Mattress.objects.get(serial=serial)
+    mattress = Mattress.objects.filter(patient=patient).last()
     report_cycle = ReportCycle.objects.get(mat=mattress,id=n)
     
     entries = PressureEntry.objects.filter(mat=mattress, n = report_cycle)
