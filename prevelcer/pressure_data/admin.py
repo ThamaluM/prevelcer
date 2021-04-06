@@ -10,6 +10,6 @@ class PressureEntryAdmin(admin.ModelAdmin):
 # admin.site.register(PressureEntry, PressureEntryAdmin)
 
 class MatressAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('patient',)
 
 admin.site.register(Mattress,MatressAdmin)

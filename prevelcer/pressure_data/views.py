@@ -1,6 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from .models import Mattress, ReportCycle, PressureEntry
 from .serializers import PressureEntrySerializer
 from rest_framework.response import Response
@@ -21,7 +22,7 @@ def register(request):
 
 
 def start_cycle(request):
-    n=0  # Could not figure it out an additional need. To be removed
+    #n=0  # Could not figure it out an additional need. To be removed
     serial = request.GET["serial"].strip()
     #n = int(request.GET["n"])
     time = datetime.now()
@@ -58,12 +59,13 @@ def enter_data(request):
 
     return JsonResponse({"status": "Success"})
 
+@login_required
 def read_mat(request):
 
-    serial = request.GET["serial"].strip()
+    patient = User.objects.get(username=request.GET["patient"].strip())
     n  = int(request.GET["n"])
     
-    mat = Mattress.objects.get(serial=serial)
+    mat = Mattress.objects.get(patient=patient)
     n = ReportCycle.objects.get(mat=mat,id=n)
 
     entries = PressureEntry.objects.filter(mat=mat, n = n)
@@ -71,54 +73,47 @@ def read_mat(request):
     "status":'completed' if n.end_dt else "incompleted"}
     return JsonResponse(result)
 
-
+@login_required
 def read_current(request):
 
-    serial = request.GET["serial"].strip()
+    patient = User.objects.get(username=request.GET["patient"].strip())
 
-    image = [
-        [0., 0., 0., 0., 0., 0., 0., 0.],
-       [0., 0., 0., 0., 0., 0., 0., 0.],
-       [0., 0., 0., 0., 0., 0., 0., 0.],
-       [0., 0., 0., 0., 0., 0., 0., 0.],
-       [0., 0., 0., 0., 0., 0., 0., 0.],
-       [0., 0., 0., 0., 0., 0., 0., 0.],
-       [0., 0., 0., 0., 0., 0., 0., 0.],
-       [0., 0., 0., 0., 0., 0., 0., 0.]
-       ]
+    
 
-    mattress = Mattress.objects.get(serial=serial)
+
+    mattress = Mattress.objects.get(patient=patient)
     try:
         report_cycle = ReportCycle.objects.filter(mat=mattress,end_dt=None)[0]
     except:
         return HttpResponse('''<head><meta http-equiv="refresh" content="2"></head>''')
     entries = PressureEntry.objects.filter(mat=mattress, n = report_cycle)
 
+    image = [
+        [0.]*entries[0].l_x
+       ]*entries[0].l_y
+
     for entry in entries:
       image[int(entry.y)-1][int(entry.x)-1] = int(entry.p)
 
     return render(request, "pressure_data/realtime.html", {"image":image})
 
+@login_required
 def read_mat_viz(request):
 
     serial = request.GET["serial"].strip()
     n  = int(request.GET["n"])
 
-    image = [
-        [0., 0., 0., 0., 0., 0., 0., 0.],
-       [0., 0., 0., 0., 0., 0., 0., 0.],
-       [0., 0., 0., 0., 0., 0., 0., 0.],
-       [0., 0., 0., 0., 0., 0., 0., 0.],
-       [0., 0., 0., 0., 0., 0., 0., 0.],
-       [0., 0., 0., 0., 0., 0., 0., 0.],
-       [0., 0., 0., 0., 0., 0., 0., 0.],
-       [0., 0., 0., 0., 0., 0., 0., 0.]
-       ]
 
     mattress = Mattress.objects.get(serial=serial)
     report_cycle = ReportCycle.objects.get(mat=mattress,id=n)
     
     entries = PressureEntry.objects.filter(mat=mattress, n = report_cycle)
+
+    
+
+    image = [
+        [0.]*entries[0].l_x
+       ]*entries[0].l_y
 
     for entry in entries:
       image[int(entry.y)-1][int(entry.x)-1] = int(entry.p)
