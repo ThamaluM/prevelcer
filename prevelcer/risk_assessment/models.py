@@ -44,6 +44,7 @@ class RiskScale(models.Model):
     hypotension = models.BooleanField(default=False)
     hypoalbuminemia = models.BooleanField(default=False)
     incontinence = models.BooleanField(default=False)
+    venus_thrombosis = models.BooleanField(default=False)
 
     comments = models.CharField(max_length=100,null=True,blank=True)
 

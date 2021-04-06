@@ -91,7 +91,8 @@ class UlcerRecord(models.Model):
         ('thickend',"Thickend"),
         ('hyperpigmented',"Hyperpigmented"),
         ('hypopignmented',"Hypopignmented"),
-        ('gangrenous',"Gangreous")
+        ('gangrenous',"Gangreous"),
+        ('itching','Itching')
     )
 
     SENSATION_CHOICE = (
@@ -101,17 +102,20 @@ class UlcerRecord(models.Model):
 
     PROGRESS_CHOICES = (
         ("improved","Improved"),
-        ("no_change","NO Change"),
+        ("no_change","No Change"),
         ("stable","Stable"),
         ("declined","Declined")
     )
 
     patient = models.ForeignKey(User, on_delete=models.CASCADE)
     reported_by = models.ForeignKey(User, on_delete=models.SET_NULL,null=True,blank=True,related_name='reported_ulcers')
+    last_update = models.DateTimeField(auto_now=True, auto_now_add=False)
 
     site = models.CharField(max_length=50,choices=SITE_CHOICES)
 
     stage = models.CharField(max_length=20,choices=STAGE_CHOICES)
+
+    duration = models.DurationField(null=True,blank=True)
 
 
     length = models.FloatField()
