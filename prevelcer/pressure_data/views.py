@@ -66,7 +66,7 @@ def enter_data(request):
 @authentication_classes([TokenAuthentication])
 def read_mat(request):
 
-    patient = User.objects.get(username=request.GET["patient"].strip())
+    patient = User.objects.filter(username=request.GET["patient"].strip()).last()
     n  = int(request.GET["n"])
     
     mat = Mattress.objects.get(patient=patient)
