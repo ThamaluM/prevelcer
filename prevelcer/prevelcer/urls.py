@@ -29,3 +29,8 @@ urlpatterns = [
     path('pressure/',include('pressure_data.urls')),
     path('notify',views.send_notification)
 ]
+
+
+admin.site.site_header = "Prevelcer Admin"
+admin.site.site_title = "Prevelcer Admin Portal"
+admin.site.index_title = "Welcome to Prevelcer Admin"
