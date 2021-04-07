@@ -92,7 +92,8 @@ class UlcerRecord(models.Model):
         ('hyperpigmented',"Hyperpigmented"),
         ('hypopignmented',"Hypopignmented"),
         ('gangrenous',"Gangreous"),
-        ('itching','Itching')
+        ('itching','Itching'),
+        ('swelling','Swelling')
     )
 
     SENSATION_CHOICE = (
