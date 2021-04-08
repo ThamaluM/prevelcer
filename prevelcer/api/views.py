@@ -221,9 +221,9 @@ def show_friends(request):
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([permissions.IsAuthenticated])
-def show_connections(request):
+def show_connections(request,role):
 
-    role = self.kwargs['role']
+    #role = self.kwargs['role']
         
     serializer = UserSerializer(request.user.profile.friends.filter(groups__name=role),many=True)
     return Response(serializer.data)
