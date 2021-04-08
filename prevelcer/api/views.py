@@ -290,7 +290,7 @@ class RiskScaleView(APIView):
 
             if serializer.is_valid(raise_exception=ValueError):
                 #serializer.update(sender=request.user,status=Sent,receiver=receiver,validated_data=request.data)
-                RiskScale.objects.create(**request.data)
+                RiskScale.objects.create(**serializer.data)
                 serializer.data["patient"] = request.user.username
                 serializer.data["assessed_by"] = patient_username
                 return Response(
@@ -322,7 +322,7 @@ class RiskScaleView(APIView):
 
             if serializer.is_valid(raise_exception=ValueError):
                 #serializer.update(sender=request.user,status=Sent,receiver=receiver,validated_data=request.data)
-                RiskScale.objects.update(**request.data)
+                RiskScale.objects.update(**serializer.data)
                 serializer.data["patient"] = request.user.username
                 serializer.data["assessed_by"] = patient_username
                 return Response(
