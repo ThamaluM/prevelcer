@@ -110,8 +110,13 @@ def read_mat_viz(request):
     n  = int(request.GET["n"])
 
 
+
     mattress = Mattress.objects.filter(patient=patient).last()
-    report_cycle = ReportCycle.objects.get(mat=mattress,id=n)
+
+    if n is not None:
+        report_cycle = ReportCycle.objects.get(mat=mattress,id=n)
+    else:
+        report_cycle = ReportCycle.objects.filter(mat=mattress).orderby('-n').first()
     
     entries = PressureEntry.objects.filter(mat=mattress, n = report_cycle)
 
@@ -124,4 +129,4 @@ def read_mat_viz(request):
     for entry in entries:
       image[int(entry.y)-1][int(entry.x)-1] = int(entry.p)
 
-    return render(request, "pressure_data/realtime.html", {"image":image})
+    return Response({"image":image})
