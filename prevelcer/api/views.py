@@ -265,7 +265,7 @@ class RiskScaleView(APIView):
         if request.user.username == request.GET["patient"]:
             patient = request.user
         else:
-            patient = request.user.profile.friends.get(username=request.data["patient"])
+            patient = request.user.profile.friends.get(username=request.GET["patient"])
 
         serializer = RiskScaleSerializer(patient.risk_scale)
 
