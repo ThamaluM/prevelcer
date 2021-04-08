@@ -77,7 +77,7 @@ def read_mat(request):
     "status":'completed' if n.end_dt else "incompleted"}
     return JsonResponse(result)
 
-@api_view(['GET'])
+@login_required
 def read_current(request):
 
     patient = User.objects.get(username=request.GET["patient"].strip())
@@ -101,7 +101,9 @@ def read_current(request):
 
     return render(request, "pressure_data/realtime.html", {"image":image})
 
-@login_required
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
 def read_mat_viz(request):
 
     patient = User.objects.get(username=request.GET["patient"].strip())
