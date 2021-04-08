@@ -56,7 +56,7 @@ class OtherUserRecordView(APIView):
     """
     #permission_classes = [IsAdminUser]
 
-    def get(self,request, username, format=None):
+    def get(self,request, username):
         user = request.user.profile.friends.get(username)
         user_serializer = UserSerializer(user)
         profile_serializer = ProfileSerializer(user.profile)
