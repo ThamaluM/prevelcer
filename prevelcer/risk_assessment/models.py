@@ -16,7 +16,7 @@ class RiskScale(models.Model):
         (4, 4)
     )
 
-    patient = models.OneToOneField(User, on_delete=models.CASCADE)
+    patient = models.OneToOneField(User, on_delete=models.CASCADE,related_name='risk_scale')
     assessed_by = models.ForeignKey(User, on_delete=models.SET_NULL,null=True,blank=True,related_name="assessed_risk_scale")
 
     # general
