@@ -275,7 +275,7 @@ class RiskScaleView(APIView):
     
     def post(self,request):
 
-        if request.user.profile.role == 'Doctor':
+        if request.user.profile.role == 3:
             
             request.data["assessed_by"] = request.user.pk
 
