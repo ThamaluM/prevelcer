@@ -77,7 +77,7 @@ def read_mat(request):
     "status":'completed' if n.end_dt else "incompleted"}
     return JsonResponse(result)
 
-@login_required
+@api_view(['GET'])
 def read_current(request):
 
     patient = User.objects.get(username=request.GET["patient"].strip())
