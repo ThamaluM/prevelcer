@@ -43,6 +43,7 @@ urlpatterns = [
     path('registermat',views.register_mat, name = 'register_mat'),
     path('device', FCMDeviceAuthorizedViewSet.as_view({'post': 'create'}), name='create_fcm_device'),
     path('community/<str:role>', MemberListView.as_view(), name = 'group_wise_user_listing'),
+    path('riskassessment',RiskScaleView.as_view(), name = 'patient_risk_assessment'),
     path('', include(router.urls)),
 ]
 
