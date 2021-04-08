@@ -281,7 +281,7 @@ class RiskScaleView(APIView):
         if request.user.profile.role == 3:
             
             request.data["assessed_by"] = request.user.pk
-            request.data["patient"] = User.objecsts.get(username=request.data["patient"]).pk
+            request.data["patient"] = User.objects.get(username=request.data["patient"]).pk
 
             serializer = RiskScaleSerializer(data=request.data)
 
