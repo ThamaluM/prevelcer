@@ -273,7 +273,7 @@ class RiskScaleView(APIView):
         return Response(serializer.data)
 
     
-    def update_or_create(self,request):
+    def post(self,request):
 
         if request.user.role == 2:
             
