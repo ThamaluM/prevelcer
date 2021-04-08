@@ -259,7 +259,7 @@ class RiskScaleView(APIView):
     queryset = RiskScale.objects.all()
     serializer_class = RiskScaleSerializer
     permission_classes = [permissions.IsAuthenticated]
-     http_method_names = ['get', 'post']
+    http_method_names = ['get', 'post']
 
     def get(self,request):
         
