@@ -290,7 +290,7 @@ class RiskScaleView(APIView):
 
             #if serializer.is_valid(raise_exception=ValueError):
                 #serializer.update(sender=request.user,status=Sent,receiver=receiver,validated_data=request.data)
-            RiskScale.objects.update_or_create(**request.data)
+            RiskScale.objects.create(**request.data)
             #serializer.data["patient"] = request.user.username
             #serializer.data["assessed_by"] = patient_username
             return Response(
@@ -300,22 +300,22 @@ class RiskScaleView(APIView):
         else:
             return Response({"error":"A doctor is needed to fill this"})
 
-    # def put(self,request):
+    def put(self,request):
     
-    #     if request.user.profile.role == 3:
+        if request.user.profile.role == 3:
             
-    #         request.data["assessed_by"] = request.user
-    #         request.data["patient"] = User.objects.get(username=request.data["patient"])
+            request.data["assessed_by"] = request.user
+            request.data["patient"] = User.objects.get(username=request.data["patient"])
 
-    #         RiskScale.objects.get(patient=request.data["patient"]).update(**request.data)
-    #         #serializer.data["patient"] = request.user.username
-    #         #serializer.data["assessed_by"] = patient_username
-    #         return Response(
-    #             "Successful"
-    #         )
+            RiskScale.objects.filter(patient=request.data["patient"]).update(**request.data)
+            #serializer.data["patient"] = request.user.username
+            #serializer.data["assessed_by"] = patient_username
+            return Response(
+                "Successful"
+            )
 
-    #     else:
-    #         return Response({"error":"A doctor is needed to fill this"})
+        else:
+            return Response({"error":"A doctor is needed to fill this"})
 
 
     
