@@ -120,7 +120,7 @@ def read_mat_viz(request):
     if n is not None:
         report_cycle = ReportCycle.objects.get(mat=mattress,id=int(n))
     else:
-        report_cycle = ReportCycle.objects.filter(mat=mattress).order_by('-n').first()
+        report_cycle = ReportCycle.objects.filter(mat=mattress).order_by('-n').last()
     
     entries = PressureEntry.objects.filter(mat=mattress, n = report_cycle)
 
