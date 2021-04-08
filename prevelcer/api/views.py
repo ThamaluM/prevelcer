@@ -278,6 +278,7 @@ class RiskScaleView(APIView):
     
     def post(self,request):
 
+        # check if a doctor (role 3)
         if request.user.profile.role == 3:
             
             request.data["assessed_by"] = request.user
@@ -288,21 +289,14 @@ class RiskScaleView(APIView):
 
 
 
-            if serializer.is_valid(raise_exception=ValueError):
+            #if serializer.is_valid(raise_exception=ValueError):
                 #serializer.update(sender=request.user,status=Sent,receiver=receiver,validated_data=request.data)
-                RiskScale.objects.create(**serializer.data)
-                serializer.data["patient"] = request.user.username
-                serializer.data["assessed_by"] = patient_username
-                return Response(
-                    serializer.data,
-                    status=status.HTTP_201_CREATED
-                )
+            RiskScale.objects.create(**serializer.data)
+            serializer.data["patient"] = request.user.username
+            serializer.data["assessed_by"] = patient_username
             return Response(
-                {
-                    "error": True,
-                    "error_msg": serializer.error_messages,
-                },
-                status=status.HTTP_400_BAD_REQUEST
+                serializer.data,
+                status=status.HTTP_201_CREATED
             )
 
         else:
@@ -320,23 +314,14 @@ class RiskScaleView(APIView):
 
 
 
-            if serializer.is_valid(raise_exception=ValueError):
-                #serializer.update(sender=request.user,status=Sent,receiver=receiver,validated_data=request.data)
-                RiskScale.objects.update(**serializer.data)
-                serializer.data["patient"] = request.user.username
-                serializer.data["assessed_by"] = patient_username
-                return Response(
-                    serializer.data,
-                    status=status.HTTP_201_CREATED
-                )
+            RiskScale.objects.create(**serializer.data)
+            serializer.data["patient"] = request.user.username
+            serializer.data["assessed_by"] = patient_username
             return Response(
-                {
-                    "error": True,
-                    "error_msg": serializer.error_messages,
-                },
-                status=status.HTTP_400_BAD_REQUEST
+                serializer.data,
+                status=status.HTTP_201_CREATED
             )
-
+            
         else:
             return Response({"error":"A doctor is needed to fill this"})
 
