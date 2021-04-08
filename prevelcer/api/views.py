@@ -47,21 +47,22 @@ class UserRecordView(APIView):
         serializer = UserSerializer(user)
         return Response(serializer.data)
 
-    # def post(self, request):
-    #     serializer = UserSerializer(data=request.data)
-    #     if serializer.is_valid(raise_exception=ValueError):
-    #         serializer.create(validated_data=request.data)
-    #         return Response(
-    #             serializer.data,
-    #             status=status.HTTP_201_CREATED
-    #         )
-    #     return Response(
-    #         {
-    #             "error": True,
-    #             "error_msg": serializer.error_messages,
-    #         },
-    #         status=status.HTTP_400_BAD_REQUEST
-    #     )
+
+class OtherUserRecordView(APIView):
+    """
+    API View to create or get a list of all the registered
+    users. GET request returns the registered users whereas
+    a POST request allows to create a new user.
+    """
+    #permission_classes = [IsAdminUser]
+
+    def get(self,request, format=None):
+        user = request.user.profile.friends.get(request.kwargs["username"])
+        user_serializer = UserSerializer(user)
+        profile_serializer = ProfileSerializer(user.profile)
+        return Response({"user":user_serializer.data,"profile":profile_serializer.data})
+
+   
 
 @api_view(['POST'])
 @authentication_classes([])

@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import path,include
 from . import views
-from .views import UserRecordView,ProfileRecordView,UserViewSet,FriendRequestView, MemberListView, RiskScaleView
+from .views import UserRecordView,ProfileRecordView,UserViewSet,FriendRequestView, MemberListView, RiskScaleView, OtherUserRecordView
 from fcm_django.api.rest_framework import FCMDeviceAuthorizedViewSet
 from rest_framework import routers
 
@@ -31,6 +31,7 @@ urlpatterns = [
     path('', views.index, name = 'index'),
     path('get/',views.test_get,name = 'test_get'),
     path('user/', UserRecordView.as_view(), name='users'),
+    path('userdetails/<str:username>',OtherUserRecordView.as_view(), name='otherusers'),
     path('register/',views.create_account,name="create_account"),
     path('profile/', ProfileRecordView.as_view(), name='users'),
     path('friend_request/',FriendRequestView.as_view(), name = 'friend_requests'),
