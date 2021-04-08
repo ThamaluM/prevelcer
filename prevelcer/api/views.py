@@ -280,8 +280,8 @@ class RiskScaleView(APIView):
 
         if request.user.profile.role == 3:
             
-            request.data["assessed_by"] = request.user.pk
-            request.data["patient"] = User.objects.get(username=request.data["patient"]).pk
+            request.data["assessed_by"] = request.user
+            request.data["patient"] = User.objects.get(username=request.data["patient"])
 
             serializer = RiskScaleSerializer(data=request.data)
 
@@ -309,9 +309,12 @@ class RiskScaleView(APIView):
     
         if request.user.profile.role == 3:
             
-            request.data["assessed_by"] = request.user.pk
+            request.data["assessed_by"] = request.user
+            request.data["patient"] = User.objects.get(username=request.data["patient"])
 
             serializer = RiskScaleSerializer(data=request.data)
+
+
 
             if serializer.is_valid(raise_exception=ValueError):
                 #serializer.update(sender=request.user,status=Sent,receiver=receiver,validated_data=request.data)
@@ -330,7 +333,6 @@ class RiskScaleView(APIView):
 
         else:
             return Response({"error":"A doctor is needed to fill this"})
-            
 
 
     
