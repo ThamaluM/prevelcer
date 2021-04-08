@@ -77,7 +77,7 @@ def read_mat(request):
     "status":'completed' if n.end_dt else "incompleted"}
     return JsonResponse(result)
 
-@login_required
+
 def read_current(request):
 
     patient = User.objects.get(username=request.GET["patient"].strip())
@@ -127,7 +127,7 @@ def read_mat_viz(request):
     
 
     image = [
-        [0.]*entries[0].l_x
+        [0]*entries[0].l_x
        ]*entries[0].l_y
 
     for entry in entries:
