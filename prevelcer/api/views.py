@@ -270,6 +270,9 @@ class RiskScaleView(APIView):
 
         serializer = RiskScaleSerializer(patient.risk_scale)
 
+        serializer.data["patient"] = patient.risk_scale.patient.username
+        serializer.data["assessed_by"] = patient.risk_scale.assessed_by.username
+
         return Response(serializer.data)
 
     
@@ -278,12 +281,41 @@ class RiskScaleView(APIView):
         if request.user.profile.role == 3:
             
             request.data["assessed_by"] = request.user.pk
+            request.data["patient"] = User.objecsts.get(username=request.data["patient"]).pk
+
+            serializer = RiskScaleSerializer(data=request.data)
+
+
+
+            if serializer.is_valid(raise_exception=ValueError):
+                #serializer.update(sender=request.user,status=Sent,receiver=receiver,validated_data=request.data)
+                RiskScale.objects.create(**request.data)
+                return Response(
+                    serializer.data,
+                    status=status.HTTP_201_CREATED
+                )
+            return Response(
+                {
+                    "error": True,
+                    "error_msg": serializer.error_messages,
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        else:
+            return Response({"error":"A doctor is needed to fill this"})
+
+    def put(self,request):
+    
+        if request.user.profile.role == 3:
+            
+            request.data["assessed_by"] = request.user.pk
 
             serializer = RiskScaleSerializer(data=request.data)
 
             if serializer.is_valid(raise_exception=ValueError):
                 #serializer.update(sender=request.user,status=Sent,receiver=receiver,validated_data=request.data)
-                RiskScale.objects.create(**request.data)
+                RiskScale.objects.update(**request.data)
                 return Response(
                     serializer.data,
                     status=status.HTTP_201_CREATED
