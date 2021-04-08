@@ -281,6 +281,7 @@ class RiskScaleView(APIView):
         if request.user.profile.role == 3:
             
             request.data["assessed_by"] = request.user
+            patient_username = request.data["patient"]
             request.data["patient"] = User.objects.get(username=request.data["patient"])
 
             serializer = RiskScaleSerializer(data=request.data)
@@ -290,6 +291,8 @@ class RiskScaleView(APIView):
             if serializer.is_valid(raise_exception=ValueError):
                 #serializer.update(sender=request.user,status=Sent,receiver=receiver,validated_data=request.data)
                 RiskScale.objects.create(**request.data)
+                serializer.data["patient"] = request.user.username
+                serializer.data["assessed_by"] = patient_username
                 return Response(
                     serializer.data,
                     status=status.HTTP_201_CREATED
