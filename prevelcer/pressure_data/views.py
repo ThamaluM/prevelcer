@@ -107,14 +107,15 @@ def read_current(request):
 def read_mat_viz(request):
 
     patient = User.objects.get(username=request.GET["patient"].strip())
-    n  = int(request.GET["n"])
+    
 
 
 
     mattress = Mattress.objects.filter(patient=patient).last()
 
+    n=request.GET["n"]
     if n is not None:
-        report_cycle = ReportCycle.objects.get(mat=mattress,id=n)
+        report_cycle = ReportCycle.objects.get(mat=mattress,id=int(n))
     else:
         report_cycle = ReportCycle.objects.filter(mat=mattress).orderby('-n').first()
     
