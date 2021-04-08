@@ -37,12 +37,13 @@ urlpatterns = [
     path('outgoing_requests/',views.show_requests_sent,name = 'outgoing_requests'),
     path('accept_request/',views.accept_friend_request,name = 'accept_request'),
     path('show_friends/',views.show_friends,name='show_friend_list'),
+    path('show_connections/<str:role>',views.show_connections,name='show_friend_list_by_roles'),
     path('unfriend/',views.unfriend,name='unfriend'),
     path('request/', RiskScaleView.as_view(), name = 'risk_assessment'),
     path('registermat',views.register_mat, name = 'register_mat'),
     path('device', FCMDeviceAuthorizedViewSet.as_view({'post': 'create'}), name='create_fcm_device'),
+    path('community/<str:role>', MemberListView.as_view(), name = 'group_wise_user_listing'),
     path('', include(router.urls)),
-    path('community/<str:role>', MemberListView.as_view(), name = 'group_wise_user_listing')
 ]
 
 
