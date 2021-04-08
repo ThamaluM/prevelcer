@@ -262,7 +262,7 @@ class RiskScaleView(APIView):
 
     def get(self,request):
         
-        if request.user.username == request.data["patient"]:
+        if request.user.username == request.GET["patient"]:
             patient = request.user
         else:
             patient = request.user.profile.friends.get(username=request.data["patient"])
