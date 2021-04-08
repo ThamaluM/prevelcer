@@ -112,8 +112,11 @@ def read_mat_viz(request):
 
 
     mattress = Mattress.objects.filter(patient=patient).last()
-
-    n=request.GET["n"]
+    n = None
+    try:
+        n=request.GET["n"]
+    except:
+        pass
     if n is not None:
         report_cycle = ReportCycle.objects.get(mat=mattress,id=int(n))
     else:
