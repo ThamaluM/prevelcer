@@ -307,7 +307,7 @@ class RiskScaleView(APIView):
             request.data["assessed_by"] = request.user
             request.data["patient"] = User.objects.get(username=request.data["patient"])
 
-            RiskScale.objects.update(**request.data)
+            RiskScale.objects.get(patient=request.data["patient"]).update(**request.data)
             #serializer.data["patient"] = request.user.username
             #serializer.data["assessed_by"] = patient_username
             return Response(
