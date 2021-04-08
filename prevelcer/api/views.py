@@ -269,7 +269,7 @@ class RiskScaleView(APIView):
 
         serializer = RiskScaleSerializer(patient.risk_scale)
 
-        Response(serializer.data)
+        return Response(serializer.data)
 
     
     def update_or_create(self,request):
