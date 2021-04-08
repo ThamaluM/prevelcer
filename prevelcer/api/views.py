@@ -259,7 +259,7 @@ class RiskScaleView(APIView):
     queryset = RiskScale.objects.all()
     serializer_class = RiskScaleSerializer
     permission_classes = [permissions.IsAuthenticated]
-    http_method_names = ['get', 'post']
+    #http_method_names = ['get', 'post']
 
     def get(self,request):
         
@@ -275,7 +275,7 @@ class RiskScaleView(APIView):
     
     def post(self,request):
 
-        if request.user.role == 2:
+        if request.user.profile.role == 2:
             
             request.data["assessed_by"] = request.user.pk
 
