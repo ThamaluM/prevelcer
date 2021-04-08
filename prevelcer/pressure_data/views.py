@@ -92,9 +92,7 @@ def read_current(request):
         return HttpResponse('''<head><meta http-equiv="refresh" content="2"></head>''')
     entries = PressureEntry.objects.filter(mat=mattress, n = report_cycle)
 
-    image = [
-        [0.]*entries[0].l_x
-       ]*entries[0].l_y
+    image = [[0 for m in range(entries[0].l_x)] for n in range(entries[0].l_y)]
 
     for entry in entries:
       image[int(entry.y)-1][int(entry.x)-1] = int(entry.p)
@@ -126,10 +124,7 @@ def read_mat_viz(request):
 
     
 
-    image = [
-        [0]*entries[0].l_x
-       ]*entries[0].l_y
-
+    image = [[0 for m in range(entries[0].l_x)] for n in range(entries[0].l_y)]
     for entry in entries:
       image[int(entry.y)-1][int(entry.x)-1] = int(entry.p)
 
