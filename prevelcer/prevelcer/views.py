@@ -5,7 +5,17 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 def home(request):
-    return HttpResponse("<head><style>body {background-image: url('https://cdn.pixabay.com/photo/2016/11/18/12/06/white-male-1834117_960_720.jpg');}</style></head><html><body><center><h1>Hello Welcome to our home page!</h1> - Thamalu, Helik, Buddhini, Adrian.</center></body></html>") #"Hello Welcome"
+    return HttpResponse('''
+    <html><head><style>body {background-image: url('https://cdn.pixabay.com/photo/2016/11/18/12/06/white-male-1834117_960_720.jpg');}</style></head>
+    <body>
+    
+    
+    <center><h1>Hello Welcome to our home page!</h1>
+
+
+     - Thamalu, Helik, Buddhini, Adrian.</center>
+     </body></html>
+     ''') #"Hello Welcome"
 
 
 
