@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'fcm_django',
     'cloudinary_storage',
     'cloudinary',
+    'simple_history',
 ]
 
 MIDDLEWARE = [

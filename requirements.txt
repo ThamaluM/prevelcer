@@ -8,3 +8,4 @@ fcm-django==0.3.7
 Pillow==5.1.0
 django-cloudinary-storage==0.3.0
 cloudinary==1.25.0
+django-simple-history==2.12.0

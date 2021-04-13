@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django import forms
 
+from simple_history.models import HistoricalRecords
+
 # Create your models here.
 
 
@@ -149,4 +151,8 @@ class UlcerRecord(models.Model):
     progress = models.CharField(max_length=50, choices = PROGRESS_CHOICES)
 
     image = models.ImageField(upload_to='images/ulcers/', blank=True, null=True)
+
+    history = HistoricalRecords()
+
+    
 
