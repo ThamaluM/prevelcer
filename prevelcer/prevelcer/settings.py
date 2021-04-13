@@ -48,7 +48,9 @@ INSTALLED_APPS = [
     'risk_assessment.apps.RiskAssessmentConfig',
     'rest_framework',
     'rest_framework.authtoken',
-    'fcm_django'
+    'fcm_django',
+    'cloudinary_storage',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -75,6 +77,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -151,9 +154,19 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
 
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'prevelcer',
+    'API_KEY': '695778136262153',
+    'API_SECRET': 'u8lYKv20vKfAVj_tyH9Fj1Gqu0E'
+}
+
+
+MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 LOGIN_REDIRECT_URL = "/user/dashboard"
 LOGOUT_REDIRECT_URL = "/user/dashboard"

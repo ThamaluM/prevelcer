@@ -16,8 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import path,include
-from . import views
+from . import views, settings
 import rest_framework.authtoken.views as rest_views
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,6 +30,8 @@ urlpatterns = [
     path('pressure/',include('pressure_data.urls')),
     path('notify',views.send_notification)
 ]
+
+
 
 
 admin.site.site_header = "Prevelcer Admin"
