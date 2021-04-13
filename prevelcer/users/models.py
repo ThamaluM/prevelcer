@@ -21,7 +21,7 @@ class Profile(models.Model):
     )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     picture = models.ImageField(upload_to='images/profilepictures/', blank=True, null=True)   
-    phone_number = models.CharField(max_length=12)
+    phone_number = models.CharField(max_length=12,blank=True, null=True)
     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, blank=True, null=True)
     friends = models.ManyToManyField(User,blank=True,related_name='friends')
 
