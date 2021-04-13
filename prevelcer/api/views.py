@@ -90,8 +90,10 @@ class ProfileRecordView(APIView):
         return Response(serializer.data)
 
     def post(self,request):
+        request.data["picture"] = request.FILES["picture"]
         serializer = ProfileSerializer(data=request.data)
         if serializer.is_valid(raise_exception=ValueError):
+            
             serializer.update(user=request.user,validated_data=request.data)
             roles = ['Admin','Patient','Carer','Doctor']
             group = Group.objects.get(name=roles[request.user.profile.role])
