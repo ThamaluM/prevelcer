@@ -36,6 +36,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = (
             'phone_number',
             'role',
+            'picture',
         )
         extra_kwargs = {}
         
