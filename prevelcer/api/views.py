@@ -112,7 +112,7 @@ class ProfileRecordView(APIView):
         )
 
  
-@api_view(['DEL'])
+@api_view(['DELETE'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([permissions.IsAuthenticated])
 def delete_profile_picture(request):
