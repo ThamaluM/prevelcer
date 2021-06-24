@@ -90,7 +90,8 @@ class ProfileRecordView(APIView):
         return Response(serializer.data)
 
     def post(self,request):
-        request.data["picture"] = request.FILES["picture"]
+        if "picture" in request.FILES:
+            request.data["picture"] = request.FILES["picture"]
         serializer = ProfileSerializer(data=request.data)
         if serializer.is_valid(raise_exception=ValueError):
             
@@ -109,6 +110,19 @@ class ProfileRecordView(APIView):
             },
             status=status.HTTP_400_BAD_REQUEST
         )
+
+ 
+@api_view(['DEL'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([permissions.IsAuthenticated])
+def delete_profile_picture(request):
+    profile = request.user.profile
+    profile.picture = None
+    profile.save()
+    return HttpResponse("Profile picture deleted.")
+
+
+
 
 
 

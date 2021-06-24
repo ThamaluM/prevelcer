@@ -34,6 +34,7 @@ urlpatterns = [
     path('userdetails/<str:username>',OtherUserRecordView.as_view(), name='otherusers'),
     path('register/',views.create_account,name="create_account"),
     path('profile/', ProfileRecordView.as_view(), name='users'),
+    path('deletepicture/',views.delete_profile_picture,name='delete_profile_picture'),
     path('friend_request/',FriendRequestView.as_view(), name = 'friend_requests'),
     path('outgoing_requests/',views.show_requests_sent,name = 'outgoing_requests'),
     path('accept_request/',views.accept_friend_request,name = 'accept_request'),
