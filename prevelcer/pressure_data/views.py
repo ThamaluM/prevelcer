@@ -10,6 +10,9 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.authentication import TokenAuthentication
 from datetime import datetime
 import json
+import base64
+from io import BytesIO
+from matplotlib.figure import Figure
 
 
 # Create your views here.
@@ -129,3 +132,47 @@ def read_mat_viz(request):
       image[int(entry.y)-1][int(entry.x)-1] = int(entry.p)
 
     return Response({"image":image})
+
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+def read_current2(request):
+
+    patient = User.objects.get(username=request.GET["patient"].strip())
+    
+
+
+
+    mattress = Mattress.objects.filter(patient=patient).last()
+    n = None
+    try:
+        n=request.GET["n"]
+    except:
+        pass
+    if n is not None:
+        report_cycle = ReportCycle.objects.get(mat=mattress,id=int(n))
+    else:
+        report_cycle = ReportCycle.objects.filter(mat=mattress).order_by('-n').last()
+    
+    entries = PressureEntry.objects.filter(mat=mattress, n = report_cycle)
+
+    
+
+    image = [[0 for m in range(entries[0].l_x)] for n in range(entries[0].l_y)]
+    for entry in entries:
+      image[int(entry.y)-1][int(entry.x)-1] = int(entry.p)
+
+    fig = Figure(figsize=(5, 10))
+    ax = fig.subplots()
+    ax.imshow(image,cmap="jet")
+    ax.axis('off')
+    # Save it to a temporary buffer.
+    buf = BytesIO()
+    fig.subplots_adjust(bottom=0, top=1, left=0, right=1, hspace=0, wspace=0)
+    ax.margins(0, 0)
+    fig.savefig(buf, format="png")
+    # Embed the result in the html output.
+    data = base64.b64encode(buf.getbuffer()).decode("ascii")
+    image_src = f'data:image/png;base64,{data}'
+
+    return render(request, "pressure_data/realtime2.html", {"image":image_src})

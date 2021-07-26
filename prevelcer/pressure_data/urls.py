@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from pressure_data.views import insert,register,start_cycle,end_cycle, enter_data, read_mat, read_current, read_mat_viz
+from pressure_data.views import insert,register,start_cycle,end_cycle, enter_data, read_mat, read_current, read_mat_viz, read_current2
 
 urlpatterns = [
     url("register",register,name="register_mat"),
@@ -9,5 +9,6 @@ urlpatterns = [
     url("read",read_mat,name = "read_matrix"),
     url("realtime",read_current,name="realtime"),
     url("visualize",read_mat_viz,name="visualize"),
+    url("realtime2",read_current2,name="realtime"),
     url("",insert,name="insert"),
 ]
